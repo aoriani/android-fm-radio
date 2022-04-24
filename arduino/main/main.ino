@@ -181,7 +181,7 @@ void loop() {
         break;
 
       case '-':
-        state.vol = max(state.vol - 1, 0x0);
+        state.vol = max(state.vol - 1, 0x0);                                                                         
         radio.setVolume(state.vol);
         break;
 
