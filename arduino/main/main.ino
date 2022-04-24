@@ -172,47 +172,49 @@ void loop() {
   sendStateToDisplay();
   sendStateToSerial();
 
-  auto command = Serial.read();
-  switch (command) {
-    case '+':
-      state.vol = min(state.vol + 1, 0xf);
-      radio.setVolume(state.vol);
-      break;
+  while (Serial.available()) {
+    auto command = Serial.read();
+    switch (command) {
+      case '+':
+        state.vol = min(state.vol + 1, 0xf);
+        radio.setVolume(state.vol);
+        break;
 
-    case '-':
-      state.vol = max(state.vol - 1, 0x0);
-      radio.setVolume(state.vol);
-      break;
+      case '-':
+        state.vol = max(state.vol - 1, 0x0);
+        radio.setVolume(state.vol);
+        break;
 
-    case 'u':
-      state.freq = radio.seekUp();
-      break;
+      case 'u':
+        state.freq = radio.seekUp();
+        break;
 
-    case 'd':
-      state.freq = radio.seekDown();
-      break;
+      case 'd':
+        state.freq = radio.seekDown();
+        break;
 
-    case 's': {
-        int newFreq = readNumberFromSerial();
-        if (875 <= newFreq && newFreq <= 1080) {
-          radio.setChannel(newFreq);
-          state.freq = newFreq;
+      case 's': {
+          int newFreq = readNumberFromSerial();
+          if (875 <= newFreq && newFreq <= 1080) {
+            radio.setChannel(newFreq);
+            state.freq = newFreq;
+          }
+
+          break;
         }
 
-        break;
-      }
-
-    case 'v': {
-        int newVol = readNumberFromSerial();
-        if (0 <= newVol <= 15) {
-          state.vol = newVol;
-          radio.setVolume(state.vol);
+      case 'v': {
+          int newVol = readNumberFromSerial();
+          if (0 <= newVol <= 15) {
+            state.vol = newVol;
+            radio.setVolume(state.vol);
+          }
+          break;
         }
-        break;
-      }
 
-      //default:
-      // Do nothing, arduino doesn't block read and returns -1
+        //default:
+        // Do nothing, arduino doesn't block read and returns -1
+    }
   }
 }
 
