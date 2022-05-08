@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- Adafruit QT Py M0 -->
+    <usb-device vendor-id="9114" product-id="32971"/>
+</resources>
